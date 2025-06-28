@@ -11,12 +11,23 @@ export class Button extends UIComponent {
 
     private _width: number = 0;
     private _height: number = 0;
+    private _borderWidth: number;
 
-    constructor(labelText: string, width: number, height: number, onClick: () => void) {
+    constructor(
+        labelText: string,
+        width: number,
+        height: number,
+        onClick: () => void,
+        options: {
+            textStyle?: Partial<TextStyle>;
+            borderWidth?: number;
+        } = {}
+    ) {
         super();
 
         this._width = width;
         this._height = height;
+        this._borderWidth = options.borderWidth ?? 2;
 
         this.background = new Graphics();
 
@@ -25,6 +36,7 @@ export class Button extends UIComponent {
             fontSize: 32,
             fill: 0xFFFFFF,
             align: 'center',
+            ...(options.textStyle ?? {}),
         };
         this.labelText = new Text({text: labelText, style: buttonTextStyle});
         this.labelText.anchor.set(0.5);
@@ -47,7 +59,7 @@ export class Button extends UIComponent {
         this.background.clear();
         this.background.roundRect(-this._width / 2, -this._height / 2, this._width, this._height, 8)
             .fill(0x000000)
-            .stroke({ width: 2, color: 0xFFFFFF });
+            .stroke({ width: this._borderWidth, color: 0xFFFFFF });
     }
 
     private updateLabelPosition(): void {

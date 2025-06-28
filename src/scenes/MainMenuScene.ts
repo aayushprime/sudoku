@@ -32,43 +32,41 @@ export class MainMenuScene extends Scene {
         this.addChild(this.title);
 
         // Difficulty Selection
-        this.difficultyLabel = new Label('Difficulty:', { fontFamily: 'Luckiest Guy', fontSize: 40, fill: 0xFFFFFF });
+        this.difficultyLabel = new Label('Difficulty:', { fontFamily: 'Luckiest Guy', fontSize: 60, fill: 0xFFFFFF });
         this.difficultyLabel.layout = {
             anchor: Anchor.MIDDLE_CENTER,
-            margins: { top: -50 }
+            margins: { top: -80 }
         };
         this.addChild(this.difficultyLabel);
 
-        const buttonY = this.difficultyLabel.y + 180;
-
-        this.easyButton = new Button('Easy', 150, 60, () => this.selectDifficulty('Easy'));
+        this.easyButton = new Button('Easy', 225, 90, () => this.selectDifficulty('Easy'), { textStyle: { fontSize: 48 }, borderWidth: 8 });
         this.easyButton.layout = {
             anchor: Anchor.MIDDLE_CENTER,
-            margins: { top: 20, left: -160 }
+            margins: { top: 40, left: -275 }
         };
         this.addChild(this.easyButton);
 
-        this.mediumButton = new Button('Medium', 150, 60, () => this.selectDifficulty('Medium'));
+        this.mediumButton = new Button('Medium', 225, 90, () => this.selectDifficulty('Medium'), { textStyle: { fontSize: 48 }, borderWidth: 8 });
         this.mediumButton.layout = {
             anchor: Anchor.MIDDLE_CENTER,
-            margins: { top: 20 }
+            margins: { top: 40 }
         };
         this.addChild(this.mediumButton);
 
-        this.hardButton = new Button('Hard', 150, 60, () => this.selectDifficulty('Hard'));
+        this.hardButton = new Button('Hard', 225, 90, () => this.selectDifficulty('Hard'), { textStyle: { fontSize: 48 }, borderWidth: 8 });
         this.hardButton.layout = {
             anchor: Anchor.MIDDLE_CENTER,
-            margins: { top: 20, left: 160 }
+            margins: { top: 40, left: 275 }
         };
         this.addChild(this.hardButton);
 
         this.updateDifficultyButtons();
 
         // Create the play button
-        this.playButton = new Button('Play', 250, 80, () => onPlay(this.selectedDifficulty));
+        this.playButton = new Button('Play', 300, 96, () => onPlay(this.selectedDifficulty), { textStyle: { fontSize: 40 }, borderWidth: 8 });
         this.playButton.layout = {
             anchor: Anchor.MIDDLE_CENTER,
-            margins: { top: 120 }
+            margins: { top: 220 }
         };
         this.addChild(this.playButton);
 
