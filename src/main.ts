@@ -6,8 +6,8 @@ import { MainMenuScene } from './scenes/MainMenuScene';
 import { GameEndScene } from './scenes/GameEndScene';
 import { AssetManager } from './pixi-game-kit/assets/AssetManager';
 
-const GAME_WIDTH = 1280;
-const GAME_HEIGHT = 960; // 4:3 aspect ratio
+const GAME_WIDTH = 1000;
+const GAME_HEIGHT = 1300; // 4:3 aspect ratio
 
 async function main() {
     const app = new Application();
