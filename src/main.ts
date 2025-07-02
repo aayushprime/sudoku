@@ -1,67 +1,72 @@
-import './style.css';
-import { Application, Container, Ticker } from 'pixi.js';
-import { SceneManager } from './pixi-game-kit/scene/SceneManager';
-import { GameScene } from './scenes/GameScene';
-import { MainMenuScene } from './scenes/MainMenuScene';
-import { GameEndScene } from './scenes/GameEndScene';
-import { AssetManager } from './pixi-game-kit/assets/AssetManager';
+import "./style.css";
+import { Application, Container, Ticker } from "pixi.js";
+import { SceneManager } from "./pixi-game-kit/scene/SceneManager";
+import { GameScene } from "./scenes/GameScene";
+import { MainMenuScene } from "./scenes/MainMenuScene";
+import { GameEndScene } from "./scenes/GameEndScene";
+import { AssetManager } from "./pixi-game-kit/assets/AssetManager";
 
 const GAME_WIDTH = 1000;
 const GAME_HEIGHT = 1300; // 4:3 aspect ratio
 
 async function main() {
-    const app = new Application();
-    await app.init({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        backgroundColor: 0x000000, // Black background for letterboxing
-    });
-    document.body.appendChild(app.canvas as unknown as Node);
+  const app = new Application();
+  await app.init({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 0x000000, // Black background for letterboxing
+    resolution: 2,
+    autoDensity: true,
+  });
+  document.body.appendChild(app.canvas as unknown as Node);
 
-    const gameContainer = new Container();
-    app.stage.addChild(gameContainer);
+  const gameContainer = new Container();
+  app.stage.addChild(gameContainer);
 
-    await AssetManager.initialize();
+  await AssetManager.initialize();
 
-    const sceneManager = new SceneManager(app, gameContainer);
+  const sceneManager = new SceneManager(app, gameContainer);
 
-    const handlePlay = (difficulty: 'Easy' | 'Medium' | 'Hard') => {
-        sceneManager.goTo('game', { difficulty });
-    };
+  const handlePlay = (difficulty: "Easy" | "Medium" | "Hard") => {
+    sceneManager.goTo("game", { difficulty });
+  };
 
-    sceneManager.add('main-menu', new MainMenuScene(app, handlePlay));
-    sceneManager.add('game', new GameScene(app, sceneManager));
+  sceneManager.add("main-menu", new MainMenuScene(app, handlePlay));
+  sceneManager.add("game", new GameScene(app, sceneManager));
 
-    const handleGoToMenu = () => {
-        sceneManager.goTo('main-menu');
-    };
-    sceneManager.add('game-end', new GameEndScene(app, handleGoToMenu));
+  const handleGoToMenu = () => {
+    sceneManager.goTo("main-menu");
+  };
+  sceneManager.add("game-end", new GameEndScene(app, handleGoToMenu));
 
-    sceneManager.goTo('main-menu');
+  sceneManager.goTo("main-menu");
 
-    // Game loop
-    Ticker.shared.add((ticker) => {
-        sceneManager.update(ticker.deltaTime);
-    });
+  // Game loop
+  Ticker.shared.add((ticker) => {
+    sceneManager.update(ticker.deltaTime);
+  });
 
-    // Letterbox scaling
-    function resize() {
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
+  // Letterbox scaling
+  function resize() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
 
-        app.renderer.resize(screenWidth, screenHeight);
+    app.renderer.resize(screenWidth, screenHeight);
 
-        const scale = Math.min(screenWidth / GAME_WIDTH, screenHeight / GAME_HEIGHT);
+    const scale = Math.min(
+      screenWidth / GAME_WIDTH,
+      screenHeight / GAME_HEIGHT,
+    );
 
-        gameContainer.scale.set(scale);
-        gameContainer.x = (screenWidth - GAME_WIDTH * scale) / 2;
-        gameContainer.y = (screenHeight - GAME_HEIGHT * scale) / 2;
+    gameContainer.scale.set(scale);
+    gameContainer.x = (screenWidth - GAME_WIDTH * scale) / 2;
+    gameContainer.y = (screenHeight - GAME_HEIGHT * scale) / 2;
 
-        sceneManager.resize(GAME_WIDTH, GAME_HEIGHT);
-    }
+    sceneManager.resize(GAME_WIDTH, GAME_HEIGHT);
+  }
 
-    window.addEventListener('resize', resize);
-    resize();
+  window.addEventListener("resize", resize);
+  resize();
 }
 
 main();
